@@ -1,16 +1,9 @@
-import CreateGameForm from "@/app/components/CreateGameForm";
+import CreateGameFormContainer from "@/app/components/CreateGameFormContainer";
 
 export default function Home() {
   return (
     <div>
-      <CreateGameForm
-        loading={false}
-        // onSubmit={() => {}}
-        initialValue={{
-          email: "duck@kisser.de",
-          password: "",
-        }}
-      />
+      <CreateGameFormContainer />
     </div>
   );
 }

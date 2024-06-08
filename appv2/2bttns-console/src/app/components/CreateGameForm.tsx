@@ -1,11 +1,11 @@
-"use client";
-
 import React from "react";
 import Button from "./Button";
-import classNames from "classnames";
-import { useMemo } from "react";
+import AutoCompleteInput from "./AutoCompleteInput";
 
-export type InputTag = {
+import classNames from "classnames";
+import { useMemo, useState } from "react";
+
+export type Tag = {
   id: string;
   description: string;
   name: string;
@@ -43,7 +43,7 @@ export type Game = {
   description: string;
   mode: GameMode;
   question?: string;
-  tags: InputTag[];
+  tags: Tag[];
 };
 
 export type LoginFormProps = {
@@ -51,6 +51,7 @@ export type LoginFormProps = {
   initialValue?: Game;
   loading: boolean;
   onSubmit: (payload: Game) => void;
+  tags: Tag[];
 };
 
 export type ToggleSwitchProps = {
@@ -99,11 +100,15 @@ const TextInput = ({
   );
 };
 
-const TextArea = () => {
+export type TextAreaProps = {
+  placeholder?: string;
+};
+
+const TextArea = ({ placeholder }: TextAreaProps) => {
   return (
     <textarea
       className="textarea textarea-bordered"
-      placeholder="Bio"
+      placeholder={placeholder}
     ></textarea>
   );
 };
@@ -113,7 +118,12 @@ const CreateGameForm = ({
   initialValue,
   loading,
   onSubmit,
+  tags,
 }: LoginFormProps) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>(
+    initialValue?.tags.map(({ name }) => name) || []
+  );
+
   const formInput: TextInputProps[] = [
     {
       id: "name",
@@ -123,53 +133,61 @@ const CreateGameForm = ({
     },
     {
       id: "description",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          className="w-4 h-4 opacity-70"
-        >
-          <path
-            fillRule="evenodd"
-            d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
       initialValue: initialValue?.description,
       placeholder: "Description",
       type: "textarea",
     },
     {
       id: "tags",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          className="w-4 h-4 opacity-70"
-        >
-          <path
-            fillRule="evenodd"
-            d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
       initialValue: initialValue?.description,
       placeholder: "Tags",
-      type: "textarea",
+      type: "multiselect",
     },
   ];
+
+  const handleSelectTag = (tag: string) => {
+    setSelectedTags((prev) => {
+      if (prev.includes(tag)) {
+        return prev.filter((t) => t !== tag);
+      }
+
+      return [...prev, tag].sort();
+    });
+  };
 
   return (
     <div className="card w-100 bg-base-100 shadow-xl outline outline-zinc-600 outline-1">
       <div className="card-body">
         <div className="flex gap-6 flex-col">
-          {formInput.map((input, index) => (
-            <TextInput key={`Form_${input.id}`} {...input} tabIndex={index} />
-          ))}
+          {formInput.map((input, index) => {
+            if (input.type === "textarea") {
+              return (
+                <TextArea
+                  key={`Form_${input.id}`}
+                  placeholder={input.placeholder}
+                />
+              );
+            }
+
+            if (input.type === "multiselect") {
+              return (
+                <AutoCompleteInput
+                  items={tags.map(({ name }) => name)}
+                  label="Tags"
+                  active={true}
+                  onChange={() => {}}
+                  onSelect={handleSelectTag}
+                  onSubmit={() => {}}
+                  key={`Form_${input.id}`}
+                  value={selectedTags.join(", ")}
+                />
+              );
+            }
+
+            return (
+              <TextInput key={`Form_${input.id}`} {...input} tabIndex={index} />
+            );
+          })}
           <ToggleSwitch active={true} label="Color Bar on Buttons" />
           <Button onClick={() => {}}>Start game</Button>
         </div>
