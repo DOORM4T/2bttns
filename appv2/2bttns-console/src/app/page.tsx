@@ -1,3 +1,4 @@
+"use client";
 import PreviewLinkCardsHome from "@/app/components/PreviewLinkCard/containers/PreviewLinkCardsHome";
 
 export default function Home() {
