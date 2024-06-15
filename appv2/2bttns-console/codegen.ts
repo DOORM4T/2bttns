@@ -1,17 +1,17 @@
-
-import type { CodegenConfig } from '@graphql-codegen/cli';
+import { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  overwrite: true,
-  schema: "http://localhost:8080",
+  schema: "http://localhost:8080/v1/graphql",
+  documents: "src/gql/**/*.graphql",
+  ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    "src/generated/graphql.ts": {
-      plugins: ["typescript"]
+    "./src/gql/generated/": {
+      preset: "client",
     },
-    "./graphql.schema.json": {
-      plugins: ["introspection"]
-    }
-  }
+    "./src/gql/generated/graphql.schema.json": {
+      plugins: ["introspection"],
+    },
+  },
 };
 
 export default config;

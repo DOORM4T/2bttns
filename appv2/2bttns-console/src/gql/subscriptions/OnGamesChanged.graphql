@@ -1,0 +1,6 @@
+subscription OnGamesChanged {
+  game {
+    id
+    name
+  }
+}

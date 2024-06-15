@@ -1,0 +1,6 @@
+query GetGames {
+  game {
+    id
+    name
+  }
+}

@@ -189,7 +189,7 @@ const CreateGameForm = ({
             );
           })}
           <ToggleSwitch active={true} label="Color Bar on Buttons" />
-          <Button onClick={() => {}}>Start game</Button>
+          <Button onClick={() => {}}>Create</Button>
         </div>
       </div>
     </div>
