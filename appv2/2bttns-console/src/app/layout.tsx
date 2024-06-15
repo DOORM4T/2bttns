@@ -22,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
         <body className={inter.className}>
-          <TwoBttnsNavBar />
+          <div className="sticky top-0">
+            <TwoBttnsNavBar />
+          </div>
           <main className="flex min-h-screen flex-col items-center justify-between p-24">
             {children}
           </main>

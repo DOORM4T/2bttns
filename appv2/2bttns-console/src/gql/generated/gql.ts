@@ -14,7 +14,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "query GetGames {\n  game {\n    id\n    name\n  }\n}": types.GetGamesDocument,
-    "subscription OnGamesChanged {\n  game {\n    id\n    name\n  }\n}": types.OnGamesChangedDocument,
+    "subscription GameCountSubscription {\n  game_aggregate {\n    aggregate {\n      count\n    }\n  }\n}": types.GameCountSubscriptionDocument,
+    "subscription OnGamesChanged($offset: Int = 0, $limit: Int = 10, $id_order_by: order_by = asc, $name_order_by: order_by = asc, $created_at_order_by: order_by = asc, $updated_at_order_by: order_by = asc) {\n  game(\n    order_by: {id: $id_order_by, name: $name_order_by, created_at: $created_at_order_by, updated_at: $updated_at_order_by}\n    limit: $limit\n    offset: $offset\n  ) {\n    id\n    name\n    created_at\n    updated_at\n  }\n}": types.OnGamesChangedDocument,
 };
 
 /**
@@ -38,7 +39,11 @@ export function graphql(source: "query GetGames {\n  game {\n    id\n    name\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "subscription OnGamesChanged {\n  game {\n    id\n    name\n  }\n}"): (typeof documents)["subscription OnGamesChanged {\n  game {\n    id\n    name\n  }\n}"];
+export function graphql(source: "subscription GameCountSubscription {\n  game_aggregate {\n    aggregate {\n      count\n    }\n  }\n}"): (typeof documents)["subscription GameCountSubscription {\n  game_aggregate {\n    aggregate {\n      count\n    }\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "subscription OnGamesChanged($offset: Int = 0, $limit: Int = 10, $id_order_by: order_by = asc, $name_order_by: order_by = asc, $created_at_order_by: order_by = asc, $updated_at_order_by: order_by = asc) {\n  game(\n    order_by: {id: $id_order_by, name: $name_order_by, created_at: $created_at_order_by, updated_at: $updated_at_order_by}\n    limit: $limit\n    offset: $offset\n  ) {\n    id\n    name\n    created_at\n    updated_at\n  }\n}"): (typeof documents)["subscription OnGamesChanged($offset: Int = 0, $limit: Int = 10, $id_order_by: order_by = asc, $name_order_by: order_by = asc, $created_at_order_by: order_by = asc, $updated_at_order_by: order_by = asc) {\n  game(\n    order_by: {id: $id_order_by, name: $name_order_by, created_at: $created_at_order_by, updated_at: $updated_at_order_by}\n    limit: $limit\n    offset: $offset\n  ) {\n    id\n    name\n    created_at\n    updated_at\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

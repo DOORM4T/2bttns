@@ -1,0 +1,7 @@
+subscription GameCountSubscription {
+  game_aggregate {
+    aggregate {
+      count
+    }
+  }
+}

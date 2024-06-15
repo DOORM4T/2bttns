@@ -1,6 +1,24 @@
-subscription OnGamesChanged {
-  game {
+subscription OnGamesChanged(
+  $offset: Int = 0
+  $limit: Int = 10
+  $id_order_by: order_by = asc
+  $name_order_by: order_by = asc
+  $created_at_order_by: order_by = asc
+  $updated_at_order_by: order_by = asc
+) {
+  game(
+    order_by: {
+      id: $id_order_by
+      name: $name_order_by
+      created_at: $created_at_order_by
+      updated_at: $updated_at_order_by
+    }
+    limit: $limit
+    offset: $offset
+  ) {
     id
     name
+    created_at
+    updated_at
   }
 }

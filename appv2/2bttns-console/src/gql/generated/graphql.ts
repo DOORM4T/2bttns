@@ -15,6 +15,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   date: { input: any; output: any; }
+  timestamptz: { input: any; output: any; }
   uuid: { input: any; output: any; }
 };
 
@@ -75,8 +76,10 @@ export type Date_Comparison_Exp = {
 /** columns and relationships of "game" */
 export type Game = {
   __typename?: 'game';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregated selection of "game" */
@@ -106,8 +109,10 @@ export type Game_Bool_Exp = {
   _and?: InputMaybe<Array<Game_Bool_Exp>>;
   _not?: InputMaybe<Game_Bool_Exp>;
   _or?: InputMaybe<Array<Game_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "game" */
@@ -118,22 +123,28 @@ export enum Game_Constraint {
 
 /** input type for inserting data into table "game" */
 export type Game_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Game_Max_Fields = {
   __typename?: 'game_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Game_Min_Fields = {
   __typename?: 'game_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "game" */
@@ -324,8 +335,10 @@ export type Game_On_Conflict = {
 
 /** Ordering options when selecting data from "game". */
 export type Game_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: game */
@@ -336,15 +349,21 @@ export type Game_Pk_Columns_Input = {
 /** select columns of table "game" */
 export enum Game_Select_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "game" */
 export type Game_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** Streaming cursor of the table "game" */
@@ -357,16 +376,22 @@ export type Game_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Game_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "game" */
 export enum Game_Update_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 export type Game_Updates = {
@@ -659,6 +684,19 @@ export type Subscription_RootGame_StreamArgs = {
   where?: InputMaybe<Game_Bool_Exp>;
 };
 
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['uuid']['input']>;
@@ -677,11 +715,24 @@ export type GetGamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetGamesQuery = { __typename?: 'query_root', game: Array<{ __typename?: 'game', id: any, name: string }> };
 
-export type OnGamesChangedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type GameCountSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OnGamesChangedSubscription = { __typename?: 'subscription_root', game: Array<{ __typename?: 'game', id: any, name: string }> };
+export type GameCountSubscriptionSubscription = { __typename?: 'subscription_root', game_aggregate: { __typename?: 'game_aggregate', aggregate?: { __typename?: 'game_aggregate_fields', count: number } | null } };
+
+export type OnGamesChangedSubscriptionVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  id_order_by?: InputMaybe<Order_By>;
+  name_order_by?: InputMaybe<Order_By>;
+  created_at_order_by?: InputMaybe<Order_By>;
+  updated_at_order_by?: InputMaybe<Order_By>;
+}>;
+
+
+export type OnGamesChangedSubscription = { __typename?: 'subscription_root', game: Array<{ __typename?: 'game', id: any, name: string, created_at?: any | null, updated_at?: any | null }> };
 
 
 export const GetGamesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGames"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"game"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetGamesQuery, GetGamesQueryVariables>;
-export const OnGamesChangedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"OnGamesChanged"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"game"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<OnGamesChangedSubscription, OnGamesChangedSubscriptionVariables>;
+export const GameCountSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"GameCountSubscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"game_aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}}]} as unknown as DocumentNode<GameCountSubscriptionSubscription, GameCountSubscriptionSubscriptionVariables>;
+export const OnGamesChangedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"OnGamesChanged"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"0"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"10"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id_order_by"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"order_by"}},"defaultValue":{"kind":"EnumValue","value":"asc"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name_order_by"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"order_by"}},"defaultValue":{"kind":"EnumValue","value":"asc"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"created_at_order_by"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"order_by"}},"defaultValue":{"kind":"EnumValue","value":"asc"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updated_at_order_by"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"order_by"}},"defaultValue":{"kind":"EnumValue","value":"asc"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"game"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id_order_by"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name_order_by"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"created_at"},"value":{"kind":"Variable","name":{"kind":"Name","value":"created_at_order_by"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"updated_at"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updated_at_order_by"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<OnGamesChangedSubscription, OnGamesChangedSubscriptionVariables>;
