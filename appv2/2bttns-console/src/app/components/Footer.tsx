@@ -7,7 +7,7 @@ export type FooterProps = {};
 export default function Footer(props: FooterProps) {
   const {} = props;
   return (
-    <footer className="footer p-10 bg-base-200 text-base-content relative">
+    <footer className="footer p-10 bg-base-100 text-base-content relative">
       <nav>
         <h6 className="footer-title">Services</h6>
         <a className="link link-hover">Branding</a>

@@ -3,7 +3,7 @@ import PreviewLinkCard, {
   PreviewLinkCardProps,
 } from "../views/PreviewLinkCard";
 
-const previewLinkCards: PreviewLinkCardProps[] = [
+export const previewLinkCards: PreviewLinkCardProps[] = [
   {
     title: "Manage Games",
     description: "Manage custom games that your users can play",
